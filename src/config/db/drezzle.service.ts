@@ -1,5 +1,5 @@
-import { DRIZZLE_CONFIG, type IDrizzleConfig } from "./drezzle.config";
 import { Inject, Injectable, OnModuleInit, Logger } from "@nestjs/common";
+import { DRIZZLE_CONFIG, type IDrizzleConfig } from "./drezzle.config";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { ConfigService } from "@nestjs/config";
 import { IEnvConfg } from "../env.module";

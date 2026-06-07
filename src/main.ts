@@ -1,10 +1,10 @@
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 import { ExceptionModule } from './config/exceptions.module';
+import { IEnvConfg } from './config/env.module';
 import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app/app.module';
 import { NestFactory } from '@nestjs/core';
-import { IEnvConfg } from './config/env.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
