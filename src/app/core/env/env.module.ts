@@ -1,6 +1,6 @@
+import { IEnvType } from "@/app/core/utils/env";
 import { ConfigModule } from "@nestjs/config";
 import { Module } from "@nestjs/common";
-import { IEnvType } from "./env.type";
 
 @Module({
   imports: [

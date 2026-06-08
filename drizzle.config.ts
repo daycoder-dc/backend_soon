@@ -9,7 +9,7 @@ const NAME = String(process.env.PG_NAME);
 
 export default defineConfig({
   dialect: "postgresql",
-  schema: "./src/app/core/drizzle/schemas/index.ts",
+  schema: "./src/app/core/schemas/index.ts",
   out: "./drizzle",
   breakpoints: true,
   strict: true,
