@@ -6,7 +6,7 @@ import { Module } from "@nestjs/common";
   imports: [
     LoggerModule.forRoot({
       pinoHttp: {
-        name: "AUTH",
+        name: "API",
         autoLogging: true,
         transport: {
           target: "pino-pretty",
@@ -32,4 +32,4 @@ import { Module } from "@nestjs/common";
     LoggerModule
   ]
 })
-export class LoggerConfigModule {}
+export class LogModule {}

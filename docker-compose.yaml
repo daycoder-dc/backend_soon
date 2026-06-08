@@ -1,6 +1,6 @@
 services:
-  db:
-    image: postgres:18.4-alpine
+  postgres:
+    image: postgres:18.4
     container_name: postgresql
     restart: unless-stopped
     ports:
@@ -14,8 +14,8 @@ services:
     networks:
       - backend_net
 
-  cache:
-    image: redis:8.6-alpine
+  redis:
+    image: redis:8.8.0
     container_name: redis
     restart: unless-stopped
     ports:

@@ -1,36 +1,12 @@
 import { ConfigModule } from "@nestjs/config";
 import { Module } from "@nestjs/common";
-
-export interface IEnvConfg {
-  config: {
-    server: {
-      host: string;
-      port: number;
-      env: {
-        isDev: boolean,
-        isProd: boolean
-      }
-    },
-    database: {
-      host: string,
-      port: number,
-      user: string,
-      pass: string,
-      name: string,
-    },
-    caching: {
-      host: string,
-      port: number,
-      pass: string
-    }
-  }
-}
+import { IEnvType } from "./env.type";
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       load: [
-        (): IEnvConfg => ({
+        (): IEnvType => ({
           config: {
             server: {
               host: process.env.SERVER_HOST ?? 'localhost',
@@ -61,4 +37,4 @@ export interface IEnvConfg {
     ConfigModule
   ]
 })
-export class EnvConfigModule {}
+export class EnvModule {}

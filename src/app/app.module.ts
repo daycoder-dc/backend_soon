@@ -1,14 +1,16 @@
-import { LoggerConfigModule } from '@/config/logger.module';
-import { DrizzleModule } from '@/config/db/drezzle.module';
-import { EnvConfigModule } from '@/config/env.module';
+import { DrizzleModule } from '@/app/core/drizzle/drizzle.module';
+import { LogModule } from '@/app/core/interceptor/log.module';
+import { AuthModule } from '@thallesp/nestjs-better-auth';
+import { EnvModule } from '@/app/core/env/env.module';
 import { Module } from '@nestjs/common';
-import * as schema from '@/schemas';
+import { auth } from './core/utils/auth';
 
 @Module({
   imports: [
-    DrizzleModule.forRoot({ params: { schema } }),
-    LoggerConfigModule,
-    EnvConfigModule,
+    AuthModule.forRoot({ auth }),
+    DrizzleModule,
+    EnvModule,
+    LogModule,
   ],
 })
 export class AppModule {}
