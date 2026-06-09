@@ -14,6 +14,8 @@ services:
       - "traefik.http.routers.scr_histograma_backend.entrypoints=websecure"
       - "traefik.http.routers.scr_histograma_backend.tls.certresolver=letsencrypt"
       - "traefik.http.services.scr_histograma_backend.loadbalancer.server.port=3000"
+    depends_on:
+      - redis
 
   # postgres:
   #   image: postgres:18.4
