@@ -1,18 +1,34 @@
 services:
-  postgres:
-    image: postgres:18.4
-    container_name: postgresql
+  backend_soon:
+    build: .
+    container_name: backend_soon
     restart: unless-stopped
-    ports:
-      - 5432:5432
     env_file:
       - .env
-    environment:
-      - POSTGRES_PASSWORD=${PG_PASS}
-    volumes:
-      - postgres_data:/var/lib/postgresql
     networks:
+      - share_network
       - backend_net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.scr_histograma_backend.rule=Host(`${TRAEFIK_HOST}`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.scr_histograma_backend.entrypoints=websecure"
+      - "traefik.http.routers.scr_histograma_backend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.scr_histograma_backend.loadbalancer.server.port=3000"
+
+  # postgres:
+  #   image: postgres:18.4
+  #   container_name: postgresql
+  #   restart: unless-stopped
+  #   ports:
+  #     - 5432:5432
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     - POSTGRES_PASSWORD=${PG_PASS}
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql
+  #   networks:
+  #     - backend_net
 
   redis:
     image: redis:8.8.0
@@ -29,8 +45,11 @@ services:
       - backend_net
 
 volumes:
-  postgres_data:
   redis_data:
+  # postgres_data:
 
 networks:
   backend_net:
+    external: false
+  share_network:
+    external: true

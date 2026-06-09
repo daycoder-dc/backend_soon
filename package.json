@@ -1,7 +1,7 @@
 {
-  "name": "backend-auth",
+  "name": "backend_soon",
   "version": "0.0.1",
-  "description": "Microservicio de autenticación",
+  "description": "API-Rest",
   "author": {
     "name": "Dairo Carrasquilla",
     "email": "cdairo2204@gmail.com"
@@ -21,8 +21,10 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "drizzle:migrate": "npx drizzle-kit migrate",
-    "drizzle:generate": "npx drizzle-kit generate",
+    "db:migrate": "npx drizzle-kit migrate",
+    "db:generate": "npx drizzle-kit generate",
+    "db:push": "npx drizzle-kit push",
+    "db:pull": "npx drizzle-kit pull",
     "auth:generate": "npx auth generate --config=src/app/core/utils/auth.ts --output=src/app/core/schemas/auth.schema.ts --yes"
   },
   "dependencies": {
