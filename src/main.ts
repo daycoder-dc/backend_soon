@@ -1,3 +1,4 @@
+import { corsAllowedHeaders, corsMethods, corsOrigins } from './app/core/utils/cors';
 import { ExceptionModule } from '@/app/core/interceptor/exceptions.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -5,6 +6,7 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 import { IEnvType } from './app/core/utils/env';
 import { ConfigService } from '@nestjs/config';
+import cookieParser from "cookie-parser";
 import { AppModule } from './app/app.module';
 import { NestFactory } from '@nestjs/core';
 import compression from "compression";
@@ -34,12 +36,20 @@ async function bootstrap() {
     type: VersioningType.URI
   });
 
+  app.enableCors({
+    origin: corsOrigins,
+    methods: corsMethods,
+    allowedHeaders: corsAllowedHeaders,
+    credentials: true
+  });
+
   app.useLogger(logger);
   app.useGlobalInterceptors(new LoggerErrorInterceptor());
   app.useGlobalFilters(new ExceptionModule());
   app.useBodyParser("urlencoded", { limit: "50mb", extended: true }),
   app.useBodyParser("json", { limit: "50mb" });
   app.use(compression({ level: 6, threshold: 1024 }));
+  app.use(cookieParser(env.server.secret));
 
   app.useGlobalPipes(new ValidationPipe({
     disableErrorMessages: process.env.SERVER_ENV != "dev",
@@ -52,7 +62,8 @@ async function bootstrap() {
     .setTitle("API Rest")
     .setDescription("Documentación")
     .setVersion("1.0")
-    .addApiKey({ type: "apiKey", name: "X-API-KEY", in: "header" }, "API-Key")
+    .addApiKey({ name: "X-API-KEY", type: "apiKey", in: "header"})
+    .addBearerAuth()
     .build();
 
   const document_factory = SwaggerModule.createDocument(app, document_builder);

@@ -17,21 +17,6 @@ services:
     depends_on:
       - redis
 
-  # postgres:
-  #   image: postgres:18.4
-  #   container_name: postgresql
-  #   restart: unless-stopped
-  #   ports:
-  #     - 5432:5432
-  #   env_file:
-  #     - .env
-  #   environment:
-  #     - POSTGRES_PASSWORD=${PG_PASS}
-  #   volumes:
-  #     - postgres_data:/var/lib/postgresql
-  #   networks:
-  #     - backend_net
-
   redis:
     image: redis:8.8.0
     container_name: redis
@@ -48,7 +33,6 @@ services:
 
 volumes:
   redis_data:
-  # postgres_data:
 
 networks:
   backend_net:

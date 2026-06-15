@@ -36,7 +36,6 @@ export class SignInDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
-  @IsStrongPassword()
   password: string = "";
 
   @ApiProperty({ default: true })

@@ -1,13 +1,16 @@
-import { Session, type UserSession } from "@thallesp/nestjs-better-auth";
+import { GetSession } from "@/app/core/utils/session";
+import { type Session } from "@/app/core/utils/auth";
 import { Controller, Get } from "@nestjs/common";
-import { ApiSecurity } from "@nestjs/swagger";
+import { ApiBearerAuth } from "@nestjs/swagger";
+import { UserService } from "./user.service";
 
-@ApiSecurity("ApiKey")
 @Controller("api/users")
 export class UsersController {
+  constructor (private readonly user:UserService) {}
 
+  @ApiBearerAuth()
   @Get("me")
-  async getProfile(@Session() session: UserSession) {
-    return { user: session.user };
+  async getProfile(@GetSession() session: Session) {
+    return this.user.getProfile(session);
   }
 }

@@ -1,6 +1,7 @@
 export interface IEnvType {
   config: {
     server: {
+      secret: string;
       host: string;
       port: number;
       env: {

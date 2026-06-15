@@ -9,11 +9,12 @@ import { Module } from "@nestjs/common";
         (): IEnvType => ({
           config: {
             server: {
+              secret: process.env.BETTER_AUTH_SECRET ?? "my_secret_word",
               host: process.env.SERVER_HOST ?? 'localhost',
               port: process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT, 10) : 3000,
               env: {
                 isDev:  process.env.SERVER_ENV == "dev",
-                isProd: process.env.SERVER_ENV == "prod"
+                isProd: process.env.SERVER_ENV == "pro"
               }
             },
             database: {

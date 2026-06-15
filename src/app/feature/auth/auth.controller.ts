@@ -1,42 +1,29 @@
-import { AuthService } from "@thallesp/nestjs-better-auth";
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Headers, Post, Res } from "@nestjs/common";
+import { ApiBearerAuth, ApiSecurity } from "@nestjs/swagger";
 import { SignInDto, SingUpDto } from "./auth.dto";
+import { Public } from "@/app/core/utils/public";
+import { AuthService } from "./auth.service";
+import { type Response } from "express";
 
 @Controller("api/auth")
-export class AuthenticationController {
-  constructor (private readonly auth: AuthService) {}
+export class AuthController {
+  constructor (private readonly service:AuthService) {}
 
+  @Public()
   @Post("sign-up/email")
-  async signUp(@Body() dto: SingUpDto) {
-    return this.auth.api.signUpEmail({
-      returnHeaders: true,
-      returnStatus: true,
-      body: {
-        name: dto.name,
-        email: dto.email,
-        password: dto.password,
-        image: dto.image,
-        callbackURL: undefined
-      }
-    });
+  async signUp(@Body() dto: SingUpDto, @Headers() headers: Record<string, string>, @Res({ passthrough: true }) res: Response) {
+    return this.service.signUp(dto, headers, res);
   }
 
+  @Public()
   @Post("sign-in/email")
-  async signIn(@Body() dto: SignInDto) {
-    return this.auth.api.signInEmail({
-      returnHeaders: true,
-      returnStatus: true,
-      body: {
-        email: dto.email,
-        password: dto.password,
-        rememberMe: dto.remenberMe,
-        callbackURL: undefined
-      }
-    })
+  async signIn(@Body() dto: SignInDto, @Headers() headers: Record<string, string>, @Res({ passthrough: true }) res: Response) {
+    return this.service.signIn(dto, headers, res);
   }
 
+  @ApiBearerAuth()
   @Post("sign-out")
-  async signOut() {
-    return this.auth.api.signOut();
+  async signOut(@Headers() headers: Record<string, string>, @Res({ passthrough: true }) res: Response) {
+    return this.service.signOut(headers, res);
   }
 }
